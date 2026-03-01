@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>しみず整骨院 | 確かな技術と温かい空間で身体を整える</title>
+    <meta name="description" content="岐阜市西川手にある接骨院。15分の丁寧な施術であなたの身体をサポートします。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <div class="header__inner">
+            <h1 class="header__logo">
+                <a href="#">
+                    <span class="logo-mark">清</span>
+                    <span class="logo-text">しみず整骨院</span>
+                </a>
+            </h1>
+            <nav class="header__nav" id="global-nav">
+                <ul class="nav-list">
+                    <li><a href="#news">お知らせ</a></li>
+                    <li><a href="#concept">当院について</a></li>
+                    <li><a href="#info">診療案内</a></li>
+                    <li><a href="#reviews">みんなのレビュー</a></li>
+                    <li><a href="contact.html">お問い合わせ</a></li>
+                    <li><a href="#access">アクセス</a></li>
+                    <li class="nav-reserve" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                        <a href="#reserve" class="btn btn--reserve">Web予約</a>
+                        <a href="contact.html" class="btn btn--outline"
+                            style="background-color: var(--color-white);">お問い合わせ</a>
+                    </li>
+                </ul>
+            </nav>
+            <button class="hamburger" id="hamburger" aria-label="メニューを開閉する">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero__image-wrapper">
+                <div class="blob-shape">
+                    <img src="images/hero.png" alt="しみず整骨院の院長キャラクター" class="hero__image">
+                </div>
+            </div>
+            <div class="hero__content">
+                <h2 class="hero__catchphrase vertical-text">
+                    <span class="line1">確かな技術で、</span>
+                    <span class="line2">あなたの毎日に</span>
+                    <span class="line3">「やすらぎ」を。</span>
+                </h2>
+            </div>
+            <div class="scroll-down">
+                <span>SCROLL</span>
+                <div class="line"></div>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section id="news" class="news section animate-on-scroll">
+            <div class="container">
+                <div class="section-header" style="margin-bottom: 40px;">
+                    <h2 class="section-title">お知らせ</h2>
+                    <span class="section-subtitle">News</span>
+                </div>
+                <div class="news__inner">
+                    <div id="news-container">
+                        <p class="no-news">読み込み中...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Concept Section -->
+        <section id="concept" class="concept section animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">当院について</h2>
+                    <span class="section-subtitle">Concept</span>
+                </div>
+
+                <div class="concept__inner">
+                    <div class="concept__text-box">
+                        <h3 class="concept__lead">身体の痛みに向き合い、<br>根本からの改善を目指します。</h3>
+                        <p class="concept__text">
+                            当院では、一人ひとりの患者様と丁寧に向き合い、その日の身体の状態に合わせた最適な施術を提供しています。<br><br>
+                            「少しでも楽になって帰っていただきたい」<br>
+                            その想いで、技術の研鑽はもちろん、ホッと一息つけるような温かい空間づくりを心がけています。
+                        </p>
+                        <div class="concept__btn-wrapper">
+                            <a href="#info" class="btn btn--outline">診療内容を見る</a>
+                        </div>
+                    </div>
+                    <div class="concept__image-box">
+                        <div class="image-mask">
+                            <img src="images/interior.png" alt="接骨院の院内風景" class="concept__img">
+                        </div>
+                        <div class="blob-bg"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Information Section -->
+        <section id="info" class="info section bg-light animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">診療案内</h2>
+                    <span class="section-subtitle">Information</span>
+                </div>
+
+                <div class="info__features">
+                    <div class="feature-card">
+                        <div class="feature-card__icon">⏱️</div>
+                        <h3 class="feature-card__title">目的地まで15分</h3>
+                        <p class="feature-card__text">地域に根ざした接骨院として、通いやすい環境を整えています。お車でのご来院も歓迎です。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-card__icon">👐</div>
+                        <h3 class="feature-card__title">院長 しみず による確かな技術</h3>
+                        <p class="feature-card__text">力強い手技から繊細な調整まで、痛みの原因に直接アプローチする施術を行います。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-card__icon">🌿</div>
+                        <h3 class="feature-card__title">リラックスできる空間</h3>
+                        <p class="feature-card__text">清潔感があり、自然の温もりを感じられる院内で、心身ともにリフレッシュしていただけます。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Web Reservation Section -->
+        <section id="reserve" class="reserve section bg-light animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Webご予約</h2>
+                    <span class="section-subtitle">Web Reservation</span>
+                </div>
+
+                <div class="reserve__inner">
+                    <p class="reserve__text">
+                        当院では、24時間受付可能なWeb予約を導入しております。<br>
+                        以下のボタンよりGoogleフォームへ移動し、必要事項をご入力のうえ送信してください。<br>
+                        <small>※お急ぎの方、または当日のご予約は <strong>058-271-6895</strong> まで直接お電話ください。</small>
+                    </p>
+
+                    <div class="reserve__action">
+                        <!-- Placeholder URL for Reservation System -->
+                        <a href="#" class="btn btn--reserve btn--large">
+                            Webで予約する<br><small>（24時間受付の専用ページへ）</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Access & Business Hours Section -->
+        <section id="access" class="access section animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">アクセス・営業時間</h2>
+                    <span class="section-subtitle">Access & Hours</span>
+                </div>
+
+                <div class="access__inner">
+                    <div class="access__info">
+                        <div class="info-block">
+                            <h3 class="info-block__title">所在地</h3>
+                            <p>〒500-8258<br>岐阜県岐阜市西川手７丁目１１</p>
+                        </div>
+
+                        <div class="info-block">
+                            <h3 class="info-block__title">ご予約・お問い合わせ</h3>
+                            <p class="phone-number"><a href="tel:0582716895">058-271-6895</a></p>
+                            <p class="note">※ご予約優先制となります。</p>
+                        </div>
+
+                        <div class="info-block">
+                            <h3 class="info-block__title">営業時間</h3>
+                            <table class="hours-table">
+                                <thead>
+                                    <tr>
+                                        <th>受付時間</th>
+                                        <th>月</th>
+                                        <th>火</th>
+                                        <th>水</th>
+                                        <th>木</th>
+                                        <th>金</th>
+                                        <th class="sat">土</th>
+                                        <th class="sun">日</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>8:30 - 12:00</td>
+                                        <td>●</td>
+                                        <td>●</td>
+                                        <td>●</td>
+                                        <td>●</td>
+                                        <td>●</td>
+                                        <td>●</td>
+                                        <td rowspan="2" class="sun">休</td>
+                                    </tr>
+                                    <tr>
+                                        <td>15:30 - 20:00<br><small>(土曜 14:00 - 18:00)</small></td>
+                                        <td>●</td>
+                                        <td>●</td>
+                                        <td>●</td>
+                                        <td>●</td>
+                                        <td>●</td>
+                                        <td>▲</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ul class="hours-notes">
+                                <li>●：通常診療</li>
+                                <li>▲：土曜午後は14:00〜18:00となります。</li>
+                                <li class="sun" style="background:transparent; padding-left:0;">休診日：日曜日・祝日</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="access__map">
+                        <!-- Placeholder for map, simple iframe for now -->
+                        <div class="map-wrapper">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3253.945828551357!2d136.7584145!3d35.3569851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6003aedf539d09c3%3A0xc3f7a63d763ccab7!2z44CSNTAwLTgyNTgg5bKQ6Zic55yM5bKQ6Zic5biC6KW_5bed5omL77yX5LiB55uu77yR77yR!5e0!3m2!1sja!2sjp!4v1700000000000!5m2!1sja!2sjp"
+                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Section Moved Here -->
+                <div id="reviews" class="reviews" style="margin-top: 60px;">
+                    <div class="section-header" style="margin-bottom: 40px;">
+                        <h2 class="section-title">みんなのレビュー</h2>
+                        <span class="section-subtitle">Customer Reviews</span>
+                    </div>
+
+                    <div class="reviews__inner">
+                        <!-- List of Reviews -->
+                        <div class="reviews__list" id="reviewsContainer">
+                            <p class="no-reviews">読み込み中...</p>
+                        </div>
+
+                        <!-- Review Form -->
+                        <div class="review-form-box" style="margin-top: 40px;">
+                            <h3 class="review-form-title">レビューを書く</h3>
+                            <p class="review-form-desc">当院をご利用いただいた感想をお聞かせください。</p>
+
+                            <form id="submitReviewForm" class="review-form">
+                                <div class="form-group">
+                                    <label for="reviewerName" class="form-label">お名前（ニックネーム可） <span
+                                            class="required">必須</span></label>
+                                    <input type="text" id="reviewerName" class="form-control" required
+                                        placeholder="例：岐阜の太郎">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reviewRating" class="form-label">評価 <span
+                                            class="required">必須</span></label>
+                                    <select id="reviewRating" class="form-control" required>
+                                        <option value="5" selected>★★★★★ (5/5) 非常に良い</option>
+                                        <option value="4">★★★★☆ (4/5) 良い</option>
+                                        <option value="3">★★★☆☆ (3/5) 普通</option>
+                                        <option value="2">★★☆☆☆ (2/5) あまり良くない</option>
+                                        <option value="1">★☆☆☆☆ (1/5) 悪い</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reviewComment" class="form-label">コメント <span
+                                            class="required">必須</span></label>
+                                    <textarea id="reviewComment" class="form-control" rows="4" required
+                                        placeholder="施術の感想や、院内の雰囲気などご自由にお書きください。"></textarea>
+                                </div>
+
+                                <div class="form-submit text-center">
+                                    <button type="submit" class="btn btn--reserve">レビューを投稿する</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Moved Reviews Section -->
+        </section>
+
+        <!-- Business Calendar Section -->
+        <section id="calendar" class="calendar section animate-on-scroll bg-light">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">営業カレンダー</h2>
+                    <span class="section-subtitle">Calendar</span>
+                </div>
+                <div class="calendar__inner" style="max-width: 800px; margin: 0 auto; text-align: center;">
+                    <p style="margin-bottom: 20px; color: #555;">休診日や振替診療などの情報は、以下のカレンダーよりご確認ください。</p>
+                    <div class="iframe-container"
+                        style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                        <!-- TODO: 実際のGoogleカレンダーの埋め込みコード（iframe）に差し替えてください -->
+                        <iframe
+                            src="https://calendar.google.com/calendar/embed?src=ja.japanese%23holiday%40group.v.calendar.google.com&ctz=Asia%2FTokyo"
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                            frameborder="0" scrolling="no"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__brand">
+                    <h2 class="footer__logo">しみず整骨院</h2>
+                    <p class="footer__desc">確かな技術で、あなたの毎日に「やすらぎ」を。</p>
+                </div>
+                <div class="footer__nav">
+                    <ul>
+                        <li><a href="#">ホーム</a></li>
+                        <li><a href="#news">お知らせ</a></li>
+                        <li><a href="#concept">当院について</a></li>
+                        <li><a href="#info">診療案内</a></li>
+                        <li><a href="#reviews">みんなのレビュー</a></li>
+                        <li><a href="contact.html">お問い合わせ</a></li>
+                        <li><a href="#access">アクセス</a></li>
+                        <li><a href="login.html" style="color: rgba(255,255,255,0.4); font-size: 0.85rem;">管理</a></li>
+                    </ul>
+                </div>
+                <div class="footer__contact"
+                    style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                    <a href="#reserve" class="btn btn--reserve btn--footer">Web予約はこちら</a>
+                    <a href="contact.html" class="btn btn--footer-outline">お問い合わせ</a>
+                </div>
+            </div>
+            <div class="footer__copyright">
+                <p>&copy; 2026 しみず整骨院 All Rights Reserved.</p>
+            </div>
+        </div>
+
+        <!-- Back to top button -->
+        <a href="#" class="back-to-top" id="back-to-top" aria-label="ページトップへ戻る">
+            <span>↑</span>
+        </a>
+    </footer>
+</body>
+
+</html>
