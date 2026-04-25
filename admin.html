@@ -85,9 +85,20 @@
             window.location.href = 'login.html';
         }
 
+        const adminUser = sessionStorage.getItem('adminUser');
+        const adminPass = sessionStorage.getItem('adminPass');
+        if (!adminUser || !adminPass) {
+            sessionStorage.removeItem('isAdmin');
+            sessionStorage.removeItem('adminUser');
+            sessionStorage.removeItem('adminPass');
+            window.location.href = 'login.html';
+        }
+
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             sessionStorage.removeItem('isAdmin');
+            sessionStorage.removeItem('adminUser');
+            sessionStorage.removeItem('adminPass');
             window.location.href = 'login.html';
         });
 
@@ -137,7 +148,9 @@
                                     body: JSON.stringify({
                                         type: 'news',
                                         action: 'delete',
-                                        id: id
+                                        id: id,
+                                        adminUser: adminUser,
+                                        adminPass: adminPass
                                     })
                                 });
                                 const result = await response.json();
@@ -179,7 +192,9 @@
                 category: document.getElementById('newsCategory').value,
                 title: document.getElementById('newsTitle').value,
                 content: document.getElementById('newsContent').value,
-                id: Date.now().toString()
+                id: Date.now().toString(),
+                adminUser: adminUser,
+                adminPass: adminPass
             };
 
             try {

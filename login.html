@@ -43,16 +43,38 @@
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
+        const API_URL = 'https://script.google.com/macros/s/AKfycbx8zQWxQw2YUbreWgkeELi7gj50RQHxquL7_7OnvyaOvegsCod9m0lvtma5kuiI-asb/exec';
+
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
 
-            if (user === 'admin' && pass === 'admin123') {
-                sessionStorage.setItem('isAdmin', 'true');
-                window.location.href = 'admin.html';
-            } else {
-                document.getElementById('errorMsg').style.display = 'block';
+            errorMsg.style.display = 'none';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'login',
+                        user: user,
+                        pass: pass
+                    })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    sessionStorage.setItem('isAdmin', 'true');
+                    sessionStorage.setItem('adminUser', user);
+                    sessionStorage.setItem('adminPass', pass);
+                    window.location.href = 'admin.html';
+                } else {
+                    errorMsg.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMsg.style.display = 'block';
             }
         });
     </script>
