@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // API Configuration - Replace with your actual GAS Web App URL
-    const API_URL = 'https://script.google.com/macros/s/AKfycbwFSaa266YXZgjKQ2rbuZV0ozDR-2ShOAN-N0wfdcDJ1SelYipzQxLq9Qj1LaL8saHy/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbx8zQWxQw2YUbreWgkeELi7gj50RQHxquL7_7OnvyaOvegsCod9m0lvtma5kuiI-asb/exec';
 
     // Mobile Menu Toggle
     const hamburger = document.getElementById('hamburger');
