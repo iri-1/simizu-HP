@@ -1,0 +1,342 @@
+しみず整骨院サイト API・管理ログイン設定 手順書
+==================================================
+
+目的
+----
+
+管理画面のログインID・パスワードを login.html に直接書かず、
+Googleスプレッドシートの admin シートに保存したID・パスワードで認証するようにします。
+
+これにより、Webサイトのソースを見てもパスワードが見えにくくなります。
+
+
+完成イメージ
+------------
+
+スプレッドシートに以下の3つのシートを作ります。
+
+News
+Reviews
+admin
+
+admin シートにはログイン情報を入れます。
+
+A1: id
+B1: pass
+A2: admin
+B2: admin123
+
+
+1. スプレッドシートを準備する
+-----------------------------
+
+Googleスプレッドシートを開きます。
+
+下のタブに以下の3つがあるか確認してください。
+
+News
+Reviews
+admin
+
+News シートの1行目は以下にします。
+
+A1: id
+B1: date
+C1: category
+D1: title
+E1: content
+
+Reviews シートの1行目は以下にします。
+
+A1: id
+B1: name
+C1: rating
+D1: date
+E1: comment
+
+admin シートは以下にします。
+
+A1: id
+B1: pass
+A2: admin
+B2: admin123
+
+ログインIDやパスワードを変えたい場合は、A2 と B2 を変更します。
+
+
+2. Apps Scriptを開く
+--------------------
+
+スプレッドシート上部のメニューから、以下を開きます。
+
+拡張機能 → Apps Script
+
+既存のコードをすべて削除して、以下のコードを貼り付けます。
+
+
+// スプレッドシートのID
+const SPREAD_SHEET_ID = '1TTYQLk4fdMI4b9Feob3geatyaS39mgW8t7NZybUZ6NY';
+
+function doGet(e) {
+  const type = e.parameter.type; // 'reviews' or 'news'
+
+  const ss = SpreadsheetApp.openById(SPREAD_SHEET_ID);
+  const sheet = ss.getSheetByName(type === 'reviews' ? 'Reviews' : 'News');
+
+  if (!sheet) return response({ error: 'Sheet not found' });
+
+  const values = sheet.getDataRange().getValues();
+  if (values.length <= 1) return response([]);
+
+  const headers = values.shift();
+  const data = values.map(row => {
+    let obj = {};
+    headers.forEach((header, i) => obj[header] = row[i]);
+    return obj;
+  });
+
+  data.reverse();
+  return response(data);
+}
+
+function doPost(e) {
+  const params = JSON.parse(e.postData.contents);
+
+  // ログイン認証
+  if (params.action === 'login') {
+    return response({
+      success: checkAdmin(params.user, params.pass)
+    });
+  }
+
+  const type = params.type;
+  const action = params.action || 'create';
+
+  // お知らせの投稿・削除だけ認証必須
+  if (type === 'news') {
+    if (!checkAdmin(params.adminUser, params.adminPass)) {
+      return response({ success: false, error: 'unauthorized' });
+    }
+  }
+
+  const ss = SpreadsheetApp.openById(SPREAD_SHEET_ID);
+  const sheet = ss.getSheetByName(type === 'reviews' ? 'Reviews' : 'News');
+
+  if (!sheet) return response({ success: false, error: 'Sheet not found' });
+
+  if (action === 'delete') {
+    const id = params.id;
+    const data = sheet.getDataRange().getValues();
+    const headers = data.shift();
+    const idIdx = headers.indexOf('id');
+
+    if (idIdx === -1) {
+      return response({ success: false, error: 'ID column not found' });
+    }
+
+    for (let i = 0; i < data.length; i++) {
+      if (data[i][idIdx].toString() === id.toString()) {
+        sheet.deleteRow(i + 2);
+        return response({ success: true });
+      }
+    }
+
+    return response({ success: false, error: 'Item not found' });
+  }
+
+  // 新規作成
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  const newRow = headers.map(header => params[header] || '');
+  sheet.appendRow(newRow);
+
+  return response({ success: true });
+}
+
+function checkAdmin(user, pass) {
+  const ss = SpreadsheetApp.openById(SPREAD_SHEET_ID);
+  const sheet = ss.getSheetByName('admin');
+
+  if (!sheet) return false;
+
+  const values = sheet.getDataRange().getValues();
+  if (values.length <= 1) return false;
+
+  const headers = values.shift();
+  const idIdx = headers.indexOf('id');
+  const passIdx = headers.indexOf('pass');
+
+  if (idIdx === -1 || passIdx === -1) return false;
+
+  return values.some(row =>
+    String(row[idIdx]).trim() === String(user).trim() &&
+    String(row[passIdx]).trim() === String(pass).trim()
+  );
+}
+
+function response(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+
+3. スプレッドシートIDを確認する
+-------------------------------
+
+スプレッドシートのURLを見ます。
+
+例:
+https://docs.google.com/spreadsheets/d/1TTYQLk4fdMI4b9Feob3geatyaS39mgW8t7NZybUZ6NY/edit
+
+この中の /d/ と /edit の間がスプレッドシートIDです。
+
+例:
+1TTYQLk4fdMI4b9Feob3geatyaS39mgW8t7NZybUZ6NY
+
+Apps Scriptのこの部分と一致しているか確認します。
+
+const SPREAD_SHEET_ID = '1TTYQLk4fdMI4b9Feob3geatyaS39mgW8t7NZybUZ6NY';
+
+大文字・小文字も完全一致させてください。
+
+
+4. Apps Scriptをデプロイする
+----------------------------
+
+Apps Script画面の右上にある「デプロイ」を押します。
+
+初回の場合は「新しいデプロイ」を選びます。
+
+種類は「ウェブアプリ」を選びます。
+
+設定は以下にします。
+
+次のユーザーとして実行: 自分
+アクセスできるユーザー: 全員
+
+その後、「デプロイ」を押します。
+
+承認画面が出たら、Googleアカウントで許可してください。
+
+デプロイ後に表示されるURLをコピーします。
+
+URLはこのような形です。
+
+https://script.google.com/macros/s/xxxxxxxxxxxxxxxxxxxx/exec
+
+
+5. Webサイト側のAPI URLを変更する
+----------------------------------
+
+以下の3ファイルを確認します。
+
+js/script.js
+admin.html
+login.html
+
+それぞれにある API_URL を、先ほどコピーしたApps ScriptのURLに変更します。
+
+例:
+const API_URL = 'https://script.google.com/macros/s/xxxxxxxxxxxxxxxxxxxx/exec';
+
+現在使っているURLの例:
+const API_URL = 'https://script.google.com/macros/s/AKfycbx8zQWxQw2YUbreWgkeELi7gj50RQHxquL7_7OnvyaOvegsCod9m0lvtma5kuiI-asb/exec';
+
+
+6. 動作確認する
+---------------
+
+まず、お知らせAPIをブラウザで開きます。
+
+https://script.google.com/macros/s/xxxxxxxxxxxxxxxxxxxx/exec?type=news
+
+正常なら、このようなJSONが表示されます。
+
+[]
+
+または、
+
+[{"id":"...","date":"...","category":"...","title":"...","content":"..."}]
+
+次にレビューAPIを開きます。
+
+https://script.google.com/macros/s/xxxxxxxxxxxxxxxxxxxx/exec?type=reviews
+
+正常なら、以下のように表示されます。
+
+[]
+
+
+7. ログイン確認
+---------------
+
+サイトの login.html を開きます。
+
+スプレッドシートの admin シートに書いた内容でログインします。
+
+ID: admin
+パスワード: admin123
+
+ログインできれば成功です。
+
+間違ったID・パスワードでログインできてしまう場合は、Apps Scriptのコードが古いままデプロイされています。
+
+その場合は、Apps Scriptで保存したあと、以下を必ず行ってください。
+
+デプロイを管理 → 鉛筆マーク → バージョンを新バージョン → デプロイ
+
+
+8. よくあるエラー
+------------------
+
+エラー:
+お知らせの読み込みに失敗しました。
+
+原因候補:
+API_URLが古い
+Apps Scriptを新バージョンでデプロイしていない
+スプレッドシートIDが間違っている
+Newsシート名が違う
+
+
+エラー:
+レビュー投稿に失敗しました。
+
+原因候補:
+Reviewsシートの1行目に見出しがない
+A1:id B1:name C1:rating D1:date E1:comment になっていない
+
+
+エラー:
+どのID・パスワードでもログインできる
+
+原因候補:
+Apps Script側の doPost が古い
+action === 'login' の処理が入っていない
+保存だけして再デプロイしていない
+
+
+9. 注意点
+---------
+
+この方法は簡易的な改善です。
+
+HTMLやJavaScriptにパスワードを直接書くよりは良いですが、完全なセキュリティではありません。
+
+ただし、今回の目的である「Web上で login.html や script.js を見てもパスワードが見えないようにする」
+という点では改善になります。
+
+
+10. 最後に必ず確認すること
+--------------------------
+
+1. News シートの1行目に見出しがある
+2. Reviews シートの1行目に見出しがある
+3. admin シートに id と pass がある
+4. Apps Scriptの SPREAD_SHEET_ID が正しい
+5. Apps Scriptを保存した
+6. 新しいバージョンでデプロイした
+7. js/script.js、admin.html、login.html の API_URL が最新
+8. 間違ったID・パスワードでログインできない
+9. 正しいID・パスワードでログインできる
+10. お知らせ投稿・削除ができる
+11. レビュー投稿ができる
