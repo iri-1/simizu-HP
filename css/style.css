@@ -668,7 +668,7 @@ img {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
     border-left: 4px solid var(--color-accent1);
-    flex: 0 0 clamp(420px, 44vw, 520px);
+    flex: 0 0 clamp(380px, 41vw, 470px);
     min-height: 170px;
 }
 
