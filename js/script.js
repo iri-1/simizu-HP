@@ -140,7 +140,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!reviews || reviews.length === 0) {
                 reviewsContainer.innerHTML = '<p class="no-reviews">まだレビューがありません。最初のレビューを投稿してみませんか？</p>';
             } else {
-                let html = `<div class="reviews-slider"><div class="reviews-track${reviews.length > 1 ? ' is-animated' : ''}">`;
+                let html = `
+                    <div class="reviews-slider-wrap">
+                        <button class="reviews-nav reviews-nav--prev" type="button" aria-label="前のレビュー">＜</button>
+                        <div class="reviews-slider">
+                            <div class="reviews-track${reviews.length > 1 ? ' is-animated' : ''}">
+                `;
                 const renderReview = (review) => {
                     const rating = parseInt(review.rating, 10) || 5;
                     const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
@@ -170,8 +175,53 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
 
-                html += '</div></div>';
+                html += `
+                            </div>
+                        </div>
+                        <button class="reviews-nav reviews-nav--next" type="button" aria-label="次のレビュー">＞</button>
+                    </div>
+                `;
                 reviewsContainer.innerHTML = html;
+
+                const slider = reviewsContainer.querySelector('.reviews-slider');
+                const track = reviewsContainer.querySelector('.reviews-track');
+                const prevBtn = reviewsContainer.querySelector('.reviews-nav--prev');
+                const nextBtn = reviewsContainer.querySelector('.reviews-nav--next');
+                const firstCard = reviewsContainer.querySelector('.review-item');
+
+                if (slider && track && prevBtn && nextBtn && firstCard) {
+                    const getStep = () => firstCard.getBoundingClientRect().width + 20;
+                    let autoResumeTimer;
+
+                    const pauseAuto = () => {
+                        track.classList.remove('is-animated');
+                        clearTimeout(autoResumeTimer);
+                    };
+
+                    const resumeAuto = () => {
+                        if (reviews.length > 1) {
+                            autoResumeTimer = setTimeout(() => {
+                                track.classList.add('is-animated');
+                                slider.scrollTo({ left: 0, behavior: 'auto' });
+                            }, 4000);
+                        }
+                    };
+
+                    const slideBy = (direction) => {
+                        pauseAuto();
+                        slider.scrollBy({
+                            left: getStep() * direction,
+                            behavior: 'smooth'
+                        });
+                        resumeAuto();
+                    };
+
+                    prevBtn.addEventListener('click', () => slideBy(-1));
+                    nextBtn.addEventListener('click', () => slideBy(1));
+
+                    slider.addEventListener('mouseenter', pauseAuto);
+                    slider.addEventListener('mouseleave', resumeAuto);
+                }
             }
         } catch (error) {
             console.error('Reviews fetch error:', error);
