@@ -140,11 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!reviews || reviews.length === 0) {
                 reviewsContainer.innerHTML = '<p class="no-reviews">まだレビューがありません。最初のレビューを投稿してみませんか？</p>';
             } else {
-                let html = '';
-                reviews.forEach(review => {
+                let html = `<div class="reviews-slider"><div class="reviews-track${reviews.length > 1 ? ' is-animated' : ''}">`;
+                const renderReview = (review) => {
                     const rating = parseInt(review.rating, 10) || 5;
                     const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
-                    html += `
+                    return `
                         <div class="review-item">
                             <div class="review-item__header">
                                 <div class="review-item__name">${review.name}</div>
@@ -158,7 +158,19 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
                     `;
+                };
+
+                reviews.forEach(review => {
+                    html += renderReview(review);
                 });
+
+                if (reviews.length > 1) {
+                    reviews.forEach(review => {
+                        html += renderReview(review);
+                    });
+                }
+
+                html += '</div></div>';
                 reviewsContainer.innerHTML = html;
             }
         } catch (error) {

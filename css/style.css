@@ -611,9 +611,26 @@ img {
 
 .reviews__list {
     margin-bottom: 50px;
+    overflow: hidden;
+}
+
+.reviews-slider {
+    width: 100%;
+    overflow: hidden;
+}
+
+.reviews-track {
     display: flex;
-    flex-direction: column;
     gap: 20px;
+    width: max-content;
+}
+
+.reviews-track.is-animated {
+    animation: reviews-slide 28s linear infinite;
+}
+
+.reviews-track.is-animated:hover {
+    animation-play-state: paused;
 }
 
 .review-item {
@@ -622,6 +639,8 @@ img {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
     border-left: 4px solid var(--color-accent1);
+    flex: 0 0 min(360px, calc(100vw - 48px));
+    min-height: 170px;
 }
 
 .review-item__header {
@@ -666,6 +685,16 @@ img {
     padding: 30px 0;
     background: var(--color-white);
     border-radius: 10px;
+}
+
+@keyframes reviews-slide {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-50% - 10px));
+    }
 }
 
 .review-form-box {
