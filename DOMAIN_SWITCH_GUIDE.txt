@@ -1,0 +1,297 @@
+本番ドメイン切り替え時のSEO設定 修正手順書
+=========================================
+
+目的
+----
+
+現在は仮ドメイン（Vercelの仮URL）を使っていますが、
+独自ドメインを取得して本番公開するときは、
+SEO用に設定しているURLを本番ドメインへ変更する必要があります。
+
+この手順書では、何を直すか、どこを直すかを初心者向けにまとめています。
+
+
+結論
+----
+
+本番ドメイン取得後は、URLを直接書いている箇所だけ修正すれば大丈夫です。
+
+見た目のデザインやレイアウトを変える必要はありません。
+
+
+修正が必要なファイル
+--------------------
+
+1. robots.txt
+2. sitemap.xml
+3. index.html
+4. contact.html
+
+
+修正が必要な理由
+----------------
+
+今のファイルの中には、仮ドメインである以下のURLが入っています。
+
+https://shimizu-seikotsuin.vercel.app/
+
+Googleは canonical、sitemap、OGP、構造化データのURLを見て
+「このサイトの正式なURLはこれ」と理解します。
+
+そのため、独自ドメインにしたあとも仮ドメインのままだと、
+Googleに古いURLを見せ続けることになってしまいます。
+
+
+本番ドメイン取得後にやること
+----------------------------
+
+例として、本番ドメインが以下になったとします。
+
+https://example.com/
+
+この場合、ファイル内の
+
+https://shimizu-seikotsuin.vercel.app/
+
+を、
+
+https://example.com/
+
+に置き換えます。
+
+
+1. robots.txt を修正する
+------------------------
+
+ファイル:
+
+D:\MAMP\htdocs\simizu-HP\robots.txt
+
+現在:
+
+User-agent: *
+Allow: /
+
+Sitemap: https://shimizu-seikotsuin.vercel.app/sitemap.xml
+
+修正後の例:
+
+User-agent: *
+Allow: /
+
+Sitemap: https://example.com/sitemap.xml
+
+
+2. sitemap.xml を修正する
+-------------------------
+
+ファイル:
+
+D:\MAMP\htdocs\simizu-HP\sitemap.xml
+
+現在:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://shimizu-seikotsuin.vercel.app/index.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://shimizu-seikotsuin.vercel.app/contact.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>
+
+修正後の例:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://example.com/index.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://example.com/contact.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>
+
+
+3. index.html を修正する
+------------------------
+
+ファイル:
+
+D:\MAMP\htdocs\simizu-HP\index.html
+
+修正対象:
+
+1. canonical
+2. og:url
+3. og:image
+4. twitter:image
+5. 構造化データの url
+6. 構造化データの image
+
+現在の例:
+
+<link rel="canonical" href="https://shimizu-seikotsuin.vercel.app/index.html">
+<meta property="og:url" content="https://shimizu-seikotsuin.vercel.app/index.html">
+<meta property="og:image" content="https://shimizu-seikotsuin.vercel.app/images/hero.png">
+<meta name="twitter:image" content="https://shimizu-seikotsuin.vercel.app/images/hero.png">
+
+"url": "https://shimizu-seikotsuin.vercel.app/index.html",
+"image": "https://shimizu-seikotsuin.vercel.app/images/hero.png",
+
+修正後の例:
+
+<link rel="canonical" href="https://example.com/index.html">
+<meta property="og:url" content="https://example.com/index.html">
+<meta property="og:image" content="https://example.com/images/hero.png">
+<meta name="twitter:image" content="https://example.com/images/hero.png">
+
+"url": "https://example.com/index.html",
+"image": "https://example.com/images/hero.png",
+
+
+4. contact.html を修正する
+--------------------------
+
+ファイル:
+
+D:\MAMP\htdocs\simizu-HP\contact.html
+
+修正対象:
+
+1. canonical
+2. og:url
+3. og:image
+4. twitter:image
+
+現在の例:
+
+<link rel="canonical" href="https://shimizu-seikotsuin.vercel.app/contact.html">
+<meta property="og:url" content="https://shimizu-seikotsuin.vercel.app/contact.html">
+<meta property="og:image" content="https://shimizu-seikotsuin.vercel.app/images/hero.png">
+<meta name="twitter:image" content="https://shimizu-seikotsuin.vercel.app/images/hero.png">
+
+修正後の例:
+
+<link rel="canonical" href="https://example.com/contact.html">
+<meta property="og:url" content="https://example.com/contact.html">
+<meta property="og:image" content="https://example.com/images/hero.png">
+<meta name="twitter:image" content="https://example.com/images/hero.png">
+
+
+修正しなくてよいもの
+--------------------
+
+以下は通常そのままで大丈夫です。
+
+1. CSS
+2. レイアウト
+3. デザイン
+4. テキスト本文
+5. レビュー機能
+6. お知らせAPI
+
+また、以下のように window.location.origin を使っている処理は、
+ドメインが変わっても自動で新ドメインを使うため修正不要です。
+
+例:
+
+formNextUrl.value = `${window.location.origin}/thanks.html`;
+
+
+修正後にやること
+----------------
+
+1. 独自ドメインでサイト公開
+2. robots.txt が開けるか確認
+3. sitemap.xml が開けるか確認
+4. トップページのソースで canonical を確認
+5. contact.html の canonical を確認
+6. Google Search Console に独自ドメインを登録
+7. sitemap.xml を送信
+
+
+Google Search Console でやること
+--------------------------------
+
+独自ドメイン公開後は、Search Console 側も更新します。
+
+やること:
+
+1. 新しい本番ドメインを登録
+2. 所有確認
+3. sitemap.xml を送信
+4. URL検査でトップページを登録リクエスト
+
+
+確認方法
+--------
+
+ブラウザで以下を開いて確認します。
+
+1. https://example.com/robots.txt
+2. https://example.com/sitemap.xml
+3. https://example.com/index.html
+4. https://example.com/contact.html
+
+特にページソース表示で以下を確認します。
+
+1. canonical が本番ドメインになっている
+2. og:url が本番ドメインになっている
+3. og:image が本番ドメインになっている
+4. 構造化データの url と image が本番ドメインになっている
+
+
+一括チェック用リスト
+--------------------
+
+本番ドメイン取得後、以下を上から順に確認してください。
+
+1. robots.txt の Sitemap URL
+2. sitemap.xml の loc
+3. index.html の canonical
+4. index.html の og:url
+5. index.html の og:image
+6. index.html の twitter:image
+7. index.html の JSON-LD の url
+8. index.html の JSON-LD の image
+9. contact.html の canonical
+10. contact.html の og:url
+11. contact.html の og:image
+12. contact.html の twitter:image
+
+
+補足
+----
+
+独自ドメインに変えたあと、Google検索結果へ反映されるまでには時間がかかることがあります。
+
+すぐ反映されなくても異常ではありません。
+通常は数日から数週間かけて切り替わっていきます。
+
+
+まとめ
+------
+
+独自ドメイン取得後は、
+「URLを直接書いているSEO関連の場所だけ修正」
+すれば大丈夫です。
+
+特に大事なのは以下の4つです。
+
+1. robots.txt
+2. sitemap.xml
+3. canonical
+4. 構造化データ・OGPのURL
+
+これらを本番ドメインへ揃えることで、
+Googleに正式なURLを正しく伝えられるようになります。
