@@ -296,6 +296,8 @@ img {
     opacity: 0;
     transform: translateY(20px);
     animation: slideUp 1s ease 1s forwards;
+    left: -50px;
+    top: 30px;
 }
 
 .hero__catchphrase {
@@ -1250,6 +1252,11 @@ textarea.form-control {
         flex-direction: column;
         text-align: center;
         font-size: 1.2rem;
+    }
+
+    .hero__content {
+        left: 0;
+        top: 0;
     }
 
     .hero__catchphrase {
