@@ -1254,11 +1254,6 @@ textarea.form-control {
         font-size: 1.2rem;
     }
 
-    .hero__content {
-        left: 0;
-        top: 0;
-    }
-
     .hero__catchphrase {
         font-size: 1.4rem;
         height: 250px;
